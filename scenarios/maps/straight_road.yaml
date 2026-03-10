@@ -1,0 +1,36 @@
+name: straight_road
+description: >
+  Simple straight road. Ego vehicle drives forward toward a goal.
+  No obstacles. Baseline test for forward motion.
+
+dt: 0.1
+duration: 20.0
+seed: 42
+
+goal:
+  x: 200.0
+  y: 0.0
+  radius: 5.0
+
+roads:
+  - points:
+      - { x: 0, y: -1.75 }
+      - { x: 250, y: -1.75 }
+    width: 3.5
+    lanes: 1
+    speed_limit: 13.9
+  - points:
+      - { x: 250, y: 1.75 }
+      - { x: 0, y: 1.75 }
+    width: 3.5
+    lanes: 1
+    speed_limit: 13.9
+
+entities:
+  - id: ego
+    type: vehicle
+    x: 10.0
+    y: 0.0
+    heading: 0.0
+    speed: 0.0
+    ego: true

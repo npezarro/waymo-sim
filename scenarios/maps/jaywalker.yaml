@@ -1,0 +1,50 @@
+name: jaywalker
+description: >
+  Ego vehicle traveling east on a straight road. A pedestrian
+  jaywalks across the road from the south side starting at t=2.0.
+  Tests emergency braking / avoidance.
+
+dt: 0.1
+duration: 15.0
+seed: 42
+
+goal:
+  x: 150.0
+  y: 0.0
+  radius: 5.0
+
+roads:
+  - points:
+      - { x: 0, y: -1.75 }
+      - { x: 200, y: -1.75 }
+    width: 3.5
+    lanes: 1
+    speed_limit: 13.9
+  - points:
+      - { x: 200, y: 1.75 }
+      - { x: 0, y: 1.75 }
+    width: 3.5
+    lanes: 1
+    speed_limit: 13.9
+
+entities:
+  - id: ego
+    type: vehicle
+    x: 10.0
+    y: 0.0
+    heading: 0.0
+    speed: 11.0
+    ego: true
+
+  - id: jaywalker
+    type: pedestrian
+    x: 60.0
+    y: -12.0
+    heading: 1.5708
+    speed: 0.0
+    waypoints:
+      - { t: 2.0, x: 60.0, y: -12.0 }
+      - { t: 4.0, x: 60.0, y: -5.0 }
+      - { t: 6.0, x: 60.0, y: 0.0 }
+      - { t: 8.0, x: 60.0, y: 5.0 }
+      - { t: 10.0, x: 60.0, y: 12.0 }

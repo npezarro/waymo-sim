@@ -1,0 +1,62 @@
+name: pedestrian_crossing
+description: >
+  Ego vehicle approaches a marked crosswalk where two pedestrians
+  are crossing from opposite sides. Tests yielding behavior.
+
+dt: 0.1
+duration: 20.0
+seed: 42
+
+goal:
+  x: 120.0
+  y: 0.0
+  radius: 5.0
+
+roads:
+  - points:
+      - { x: 0, y: -1.75 }
+      - { x: 150, y: -1.75 }
+    width: 3.5
+    lanes: 1
+    speed_limit: 8.3  # 30 km/h school zone
+  - points:
+      - { x: 150, y: 1.75 }
+      - { x: 0, y: 1.75 }
+    width: 3.5
+    lanes: 1
+    speed_limit: 8.3
+
+entities:
+  - id: ego
+    type: vehicle
+    x: 5.0
+    y: 0.0
+    heading: 0.0
+    speed: 8.0
+    ego: true
+
+  - id: ped_north
+    type: pedestrian
+    x: 50.0
+    y: 10.0
+    heading: -1.5708  # facing south
+    speed: 0.0
+    waypoints:
+      - { t: 1.0, x: 50.0, y: 10.0 }
+      - { t: 3.0, x: 50.0, y: 5.0 }
+      - { t: 5.0, x: 50.0, y: 0.0 }
+      - { t: 7.0, x: 50.0, y: -5.0 }
+      - { t: 9.0, x: 50.0, y: -10.0 }
+
+  - id: ped_south
+    type: pedestrian
+    x: 52.0
+    y: -10.0
+    heading: 1.5708  # facing north
+    speed: 0.0
+    waypoints:
+      - { t: 0.5, x: 52.0, y: -10.0 }
+      - { t: 2.5, x: 52.0, y: -5.0 }
+      - { t: 4.5, x: 52.0, y: 0.0 }
+      - { t: 6.5, x: 52.0, y: 5.0 }
+      - { t: 8.5, x: 52.0, y: 10.0 }

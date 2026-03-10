@@ -1,0 +1,50 @@
+name: lane_change
+description: >
+  Two-lane road going east. Ego is in the right lane behind a slow
+  vehicle. Must change lanes to pass and reach the goal.
+
+dt: 0.1
+duration: 30.0
+seed: 42
+
+goal:
+  x: 250.0
+  y: -1.75
+  radius: 5.0
+
+roads:
+  # Right lane (eastbound)
+  - points:
+      - { x: 0, y: -1.75 }
+      - { x: 300, y: -1.75 }
+    width: 3.5
+    lanes: 1
+    speed_limit: 13.9
+  # Left lane (eastbound)
+  - points:
+      - { x: 0, y: 1.75 }
+      - { x: 300, y: 1.75 }
+    width: 3.5
+    lanes: 1
+    speed_limit: 13.9
+
+entities:
+  - id: ego
+    type: vehicle
+    x: 10.0
+    y: -1.75
+    heading: 0.0
+    speed: 10.0
+    ego: true
+
+  - id: slow_vehicle
+    type: vehicle
+    x: 50.0
+    y: -1.75
+    heading: 0.0
+    speed: 5.0
+    waypoints:
+      - { t: 0.0, x: 50.0, y: -1.75, heading: 0.0, speed: 5.0 }
+      - { t: 10.0, x: 100.0, y: -1.75, heading: 0.0, speed: 5.0 }
+      - { t: 20.0, x: 150.0, y: -1.75, heading: 0.0, speed: 5.0 }
+      - { t: 30.0, x: 200.0, y: -1.75, heading: 0.0, speed: 5.0 }

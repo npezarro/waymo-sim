@@ -1,0 +1,62 @@
+name: intersection
+description: >
+  Four-way intersection. Ego approaches from the south.
+  A cross-traffic vehicle passes through from east to west.
+
+dt: 0.1
+duration: 25.0
+seed: 42
+
+goal:
+  x: 0.0
+  y: 80.0
+  radius: 5.0
+
+roads:
+  # North-south road
+  - points:
+      - { x: -1.75, y: -50 }
+      - { x: -1.75, y: 100 }
+    width: 3.5
+    lanes: 1
+    speed_limit: 11.1
+  - points:
+      - { x: 1.75, y: 100 }
+      - { x: 1.75, y: -50 }
+    width: 3.5
+    lanes: 1
+    speed_limit: 11.1
+  # East-west road
+  - points:
+      - { x: -50, y: 26.75 }
+      - { x: 100, y: 26.75 }
+    width: 3.5
+    lanes: 1
+    speed_limit: 11.1
+  - points:
+      - { x: 100, y: 23.25 }
+      - { x: -50, y: 23.25 }
+    width: 3.5
+    lanes: 1
+    speed_limit: 11.1
+
+entities:
+  - id: ego
+    type: vehicle
+    x: -1.75
+    y: -30.0
+    heading: 1.5708  # facing north (pi/2)
+    speed: 8.0
+    ego: true
+
+  - id: cross_vehicle
+    type: vehicle
+    x: 60.0
+    y: 23.25
+    heading: 3.1416  # facing west (pi)
+    speed: 10.0
+    waypoints:
+      - { t: 0.0, x: 60.0, y: 23.25, heading: 3.1416, speed: 10.0 }
+      - { t: 3.0, x: 30.0, y: 23.25, heading: 3.1416, speed: 10.0 }
+      - { t: 5.0, x: 0.0, y: 23.25, heading: 3.1416, speed: 10.0 }
+      - { t: 8.0, x: -30.0, y: 23.25, heading: 3.1416, speed: 10.0 }
