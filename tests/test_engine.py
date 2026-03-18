@@ -137,3 +137,46 @@ class TestWorld:
         for _ in range(5):
             w.step({"ego": np.array([0.0, 1.0])})
         assert len(w._history) == 5
+
+    def test_reset_restores_entity_positions(self):
+        """reset() must restore entities to their initial positions."""
+        w = World(dt=0.1)
+        ego = Entity(
+            id="ego", entity_type=EntityType.VEHICLE,
+            x=5.0, y=10.0, heading=1.0, speed=3.0, is_ego=True,
+        )
+        w.add_entity(ego)
+        # Move the entity
+        for _ in range(20):
+            w.step({"ego": np.array([0.1, 2.0])})
+        assert ego.x != pytest.approx(5.0, abs=0.1)
+        # Reset and verify restoration
+        w.reset()
+        assert ego.x == pytest.approx(5.0)
+        assert ego.y == pytest.approx(10.0)
+        assert ego.heading == pytest.approx(1.0)
+        assert ego.speed == pytest.approx(3.0)
+        assert ego.collided is False
+        assert w.timestep == 0
+        assert w.time == 0.0
+        assert len(w._history) == 0
+
+    def test_interpolate_waypoint_uses_dt(self):
+        """P-controller in interpolate_waypoint must use actual dt, not hardcoded 0.1."""
+        entity = Entity(
+            id="npc", entity_type=EntityType.VEHICLE,
+            x=0.0, y=0.0, heading=0.0, speed=0.0,
+        )
+        entity.waypoints = [
+            (0.0, 0.0, 0.0, 0.0, 0.0),
+            (2.0, 10.0, 0.0, 0.0, 0.0),
+        ]
+        # At time=1.0, target_x=5.0, entity at x=0 → dist=5.0
+        # With dt=0.1: accel = 5.0/0.1 - 0.0 = 50.0
+        # With dt=0.5: accel = 5.0/0.5 - 0.0 = 10.0
+        action_small_dt = entity.interpolate_waypoint(1.0, dt=0.1)
+        action_large_dt = entity.interpolate_waypoint(1.0, dt=0.5)
+        # The acceleration should differ when dt differs
+        assert action_small_dt is not None
+        assert action_large_dt is not None
+        assert action_small_dt[1] != pytest.approx(action_large_dt[1], abs=0.01)

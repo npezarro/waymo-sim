@@ -73,12 +73,16 @@ class World:
         self.timestep = 0
         self.time = 0.0
         self.entities: Dict[str, Entity] = {}
+        self._initial_entity_state: Dict[str, Tuple[float, float, float, float]] = {}
         self.roads: List[RoadSegment] = []
         self.collisions: List[Tuple[str, str]] = []
         self._history: List[dict] = []
 
     def add_entity(self, entity: Entity) -> None:
         self.entities[entity.id] = entity
+        self._initial_entity_state[entity.id] = (
+            entity.x, entity.y, entity.heading, entity.speed,
+        )
 
     def add_road(self, road: RoadSegment) -> None:
         self.roads.append(road)
@@ -103,7 +107,7 @@ class World:
                 if eid in actions:
                     entity.step(actions[eid], self.dt)
             else:
-                scripted = entity.interpolate_waypoint(current_time)
+                scripted = entity.interpolate_waypoint(current_time, self.dt)
                 if scripted is not None:
                     entity.step(scripted, self.dt)
                 elif eid in actions:
@@ -175,8 +179,12 @@ class World:
         self.time = 0.0
         self.collisions = []
         self._history = []
-        for entity in self.entities.values():
+        for eid, entity in self.entities.items():
             entity.collided = False
+            if eid in self._initial_entity_state:
+                entity.x, entity.y, entity.heading, entity.speed = (
+                    self._initial_entity_state[eid]
+                )
 
     def _detect_collisions(self) -> List[Tuple[str, str]]:
         """Check all entity pairs for axis-aligned bounding box overlap,
