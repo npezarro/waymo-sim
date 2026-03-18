@@ -83,7 +83,7 @@ class Entity:
         rotated[:, 1] += self.y
         return rotated
 
-    def interpolate_waypoint(self, time: float) -> Optional[np.ndarray]:
+    def interpolate_waypoint(self, time: float, dt: float = 0.1) -> Optional[np.ndarray]:
         """Get scripted action at given time, or None if no waypoints cover it."""
         if not self.waypoints:
             return None
@@ -120,7 +120,7 @@ class Entity:
                 target_heading = math.atan2(dy, dx)
                 steer = target_heading - self.heading
                 steer = (steer + math.pi) % (2 * math.pi) - math.pi
-                accel = (dist / 0.1) - self.speed  # rough P-controller
+                accel = (dist / dt) - self.speed  # P-controller: target speed to cover dist in one dt
                 return np.array([steer, accel])
 
         return None
