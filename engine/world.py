@@ -7,12 +7,12 @@ No rendering, no IO. Seed-based RNG for any stochastic elements.
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 
-from engine.entity import Entity, EntityType
+from engine.entity import Entity
 
 
 @dataclass

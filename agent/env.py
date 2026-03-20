@@ -7,16 +7,14 @@ Provides a standard RL interface:
 
 from __future__ import annotations
 
-import math
-from typing import Any, Dict, Optional, Tuple
+from typing import Dict, Optional, Tuple
 
 import gymnasium as gym
 import numpy as np
 from gymnasium import spaces
 
-from engine.entity import EntityType
+from engine.entity import Entity, EntityType
 from engine.world import World
-
 
 # Observation: [ego_x, ego_y, ego_heading, ego_speed, collided,
 #               then for up to N nearby entities: rel_x, rel_y, rel_heading, rel_speed, type_onehot(3)]
@@ -134,7 +132,7 @@ class DrivingEnv(gym.Env):
                 action[1] * ego.kinematics.max_accel,
             ])
 
-        state = self.world.step({ego.id: scaled})
+        self.world.step({ego.id: scaled})
         self._step_count += 1
 
         obs = self._get_obs()

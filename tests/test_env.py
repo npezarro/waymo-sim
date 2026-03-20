@@ -1,11 +1,9 @@
 """Tests for the gymnasium environment wrapper."""
 
 import numpy as np
-import pytest
 
-from agent.env import DrivingEnv, OBS_DIM
+from agent.env import OBS_DIM, DrivingEnv
 from engine.entity import Entity, EntityType
-from engine.world import World
 from scenarios.loader import ScenarioLoader
 
 
