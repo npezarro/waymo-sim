@@ -1,7 +1,5 @@
 """Tests for scenario loading and scenario-based regression tests."""
 
-import math
-
 import numpy as np
 import pytest
 
@@ -51,7 +49,7 @@ class TestScenarioRegressions:
         ego = world.get_ego()
 
         for _ in range(s.max_steps):
-            state = world.step({"ego": np.array([0.0, 3.0])})
+            world.step({"ego": np.array([0.0, 3.0])})
             if ego.collided:
                 break
 
@@ -66,7 +64,7 @@ class TestScenarioRegressions:
 
         # Brake hard for 5 seconds
         for _ in range(50):
-            state = world.step({"ego": np.array([0.0, -8.0])})
+            world.step({"ego": np.array([0.0, -8.0])})
 
         assert not ego.collided, "Ego collided while braking"
         assert ego.speed < 1.0, f"Ego still moving at {ego.speed} m/s after braking"

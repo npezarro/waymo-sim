@@ -197,8 +197,6 @@ class Renderer:
         self._screen.blit(label, (cx - label.get_width() // 2, cy - 20))
 
     def _draw_hud(self, ego: Optional[Entity]):
-        import pygame
-
         y = 10
         lines = [
             f"Time: {self.world.time:.1f}s  Step: {self.world.timestep}",

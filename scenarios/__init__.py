@@ -1,3 +1,3 @@
-from scenarios.loader import ScenarioLoader, Scenario
+from scenarios.loader import Scenario, ScenarioLoader
 
 __all__ = ["ScenarioLoader", "Scenario"]

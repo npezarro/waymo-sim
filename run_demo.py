@@ -2,9 +2,11 @@
 """Demo script: runs a scenario with a simple policy and prints state."""
 
 import sys
+
 import numpy as np
-from scenarios.loader import ScenarioLoader
+
 from agent.env import DrivingEnv
+from scenarios.loader import ScenarioLoader
 
 
 def main():
